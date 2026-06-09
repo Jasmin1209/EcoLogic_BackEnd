@@ -1,5 +1,6 @@
 package br.com.ifba.ecologic_back_end.modulos.produto.entity;
 
+import br.com.ifba.ecologic_back_end.modulos.estoque.entity.Estoque;
 import br.com.ifba.ecologic_back_end.modulos.produto.entity.enums.Categoria;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,6 +28,5 @@ public class Produto extends br.com.ifba.ecologic_back_end.infraestrutura.persis
     @OneToOne(mappedBy = "produto")
     private Estoque estoque;
 
-    @OneToMany(mappedBy = "produto")
-    private List<Consumo> consumos;
+
 }
