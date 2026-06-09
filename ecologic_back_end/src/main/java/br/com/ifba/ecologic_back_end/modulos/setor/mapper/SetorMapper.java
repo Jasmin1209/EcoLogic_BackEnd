@@ -3,12 +3,12 @@ package br.com.ifba.ecologic_back_end.modulos.setor.mapper;
 import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorRequestDto;
 import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorResponseDto;
 import br.com.ifba.ecologic_back_end.modulos.setor.entity.Setor;
+import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioAdministrador;
 import org.springframework.stereotype.Component;
 
-@Component // Permite que o Spring gerencie e injete esta classe no Service
+@Component
 public class SetorMapper {
 
-    // Converte os dados que vieram do Front (DTO) para o formato do Banco (Entidade)
     public Setor toEntity(SetorRequestDto dto) {
         if (dto == null) {
             return null;
@@ -17,10 +17,17 @@ public class SetorMapper {
         Setor setor = new Setor();
         setor.setNome(dto.getNome());
         setor.setDescricao(dto.getDescricao());
+
+        // Instanciamos apenas o objeto com o ID para o Hibernate criar o relacionamento
+        if (dto.getAdministradorId() != null) {
+            UsuarioAdministrador admin = new UsuarioAdministrador();
+            admin.setId(dto.getAdministradorId());
+            setor.setAdministrador(admin);
+        }
+
         return setor;
     }
 
-    // Converte os dados do Banco (Entidade) para o formato de resposta do Front (DTO)
     public SetorResponseDto toResponseDto(Setor setor) {
         if (setor == null) {
             return null;
@@ -30,6 +37,12 @@ public class SetorMapper {
         dto.setId(setor.getId());
         dto.setNome(setor.getNome());
         dto.setDescricao(setor.getDescricao());
+
+        // Extrai o ID do administrador (herdado de Usuario) para devolver ao front-end
+        if (setor.getAdministrador() != null) {
+            dto.setAdministradorId(setor.getAdministrador().getId());
+        }
+
         return dto;
     }
 }

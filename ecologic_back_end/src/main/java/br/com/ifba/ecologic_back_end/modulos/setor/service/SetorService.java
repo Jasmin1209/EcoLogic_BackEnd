@@ -5,6 +5,7 @@ import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorResponseDto;
 import br.com.ifba.ecologic_back_end.modulos.setor.entity.Setor;
 import br.com.ifba.ecologic_back_end.modulos.setor.mapper.SetorMapper;
 import br.com.ifba.ecologic_back_end.modulos.setor.repository.SetorRepository;
+import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioAdministrador;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class SetorService {
 
     private final SetorRepository setorRepository;
-    private final SetorMapper setorMapper; // Injeta o novo componente de conversão
+    private final SetorMapper setorMapper;
 
     @Transactional
     public SetorResponseDto criar(SetorRequestDto request) {
@@ -25,7 +26,6 @@ public class SetorService {
             throw new RuntimeException("Já existe um setor cadastrado com este nome.");
         }
 
-        // Usa o Mapper isolado para converter
         Setor setor = setorMapper.toEntity(request);
         Setor setorSalvo = setorRepository.save(setor);
 
@@ -35,8 +35,6 @@ public class SetorService {
     @Transactional(readOnly = true)
     public List<SetorResponseDto> buscarTodos() {
         List<Setor> setores = setorRepository.findAll();
-
-        // Converte cada entidade da lista usando o método do Mapper externo
         return setores.stream()
                 .map(setorMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -62,8 +60,16 @@ public class SetorService {
                     }
                 });
 
+        // Atualiza os dados básicos
         setorExistente.setNome(request.getNome());
         setorExistente.setDescricao(request.getDescricao());
+
+        // NOVO: Atualiza também o vínculo do administrador caso tenha sido alterado no front-end
+        if (request.getAdministradorId() != null) {
+            UsuarioAdministrador novoAdmin = new UsuarioAdministrador();
+            novoAdmin.setId(request.getAdministradorId());
+            setorExistente.setAdministrador(novoAdmin);
+        }
 
         Setor setorAtualizado = setorRepository.save(setorExistente);
         return setorMapper.toResponseDto(setorAtualizado);
