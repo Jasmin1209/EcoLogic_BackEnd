@@ -1,10 +1,14 @@
 package br.com.ifba.ecologic_back_end.modulos.produto.entity;
 
+import br.com.ifba.ecologic_back_end.modulos.consumo.entity.Consumo;
 import br.com.ifba.ecologic_back_end.modulos.estoque.entity.Estoque;
 import br.com.ifba.ecologic_back_end.modulos.produto.entity.enums.Categoria;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "produto")
@@ -25,8 +29,11 @@ public class Produto extends br.com.ifba.ecologic_back_end.infraestrutura.persis
     @Column(name = "custo_unitario", nullable = false)
     private double custoUnitario;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "produto")
     private Estoque estoque;
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "produto")
+    private List<Consumo> consumos;
 }
