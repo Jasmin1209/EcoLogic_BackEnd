@@ -18,6 +18,7 @@ import java.util.List;
  * Controller REST para o módulo Usuário.
  * Gerencia todas as operações CRUD (Create, Read, Update, Delete) de usuários.
  */
+@CrossOrigin(origins = "http://localhost:5173") //Permite requisições do frontend em desenvolvimento
 @RestController
 @RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
