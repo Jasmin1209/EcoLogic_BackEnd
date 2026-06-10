@@ -4,68 +4,86 @@ import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioAdminist
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioDiretorRequestDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioAdministradorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioDiretorResponseDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioAdministrador;
-import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioDiretor;
+import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioResponseDTO;
+import br.com.ifba.ecologic_back_end.modulos.usuario.enums.TipoUsuario;
+import br.com.ifba.ecologic_back_end.modulos.usuario.entity.Usuario;
 import org.springframework.stereotype.Component;
 
 /**
  * Componente responsável pela conversão entre Entidades e DTOs do módulo Usuário.
- * Realiza mapeamento manual para manter controle total sobre as conversões.
  */
 @Component
 public class UsuarioMapper {
 
-    // ========================
-    // REQUEST DTO → ENTITY
-    // ========================
-
     /**
-     * Converte UsuarioAdministradorRequestDTO para a entidade UsuarioAdministrador.
+     * Converte UsuarioAdministradorRequestDTO para a entidade Usuario.
      */
-    public UsuarioAdministrador toEntity(UsuarioAdministradorRequestDTO dto) {
-        UsuarioAdministrador admin = new UsuarioAdministrador();
-        admin.setEmail(dto.getEmail());
-        admin.setSenha(dto.getSenha());
-        admin.setCargo(dto.getCargo());
-        return admin;
+    public Usuario toEntity(UsuarioAdministradorRequestDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.getNome());
+        usuario.setEmail(dto.getEmail());
+        usuario.setSenha(dto.getSenha());
+        usuario.setTipo(TipoUsuario.ADMINISTRADOR);
+        usuario.setCargo(dto.getCargo());
+        return usuario;
     }
 
     /**
-     * Converte UsuarioDiretorRequestDTO para a entidade UsuarioDiretor.
+     * Converte UsuarioDiretorRequestDTO para a entidade Usuario.
      */
-    public UsuarioDiretor toEntity(UsuarioDiretorRequestDTO dto) {
-        UsuarioDiretor diretor = new UsuarioDiretor();
-        diretor.setEmail(dto.getEmail());
-        diretor.setSenha(dto.getSenha());
-        diretor.setTitulacao(dto.getTitulacao());
-        return diretor;
+    public Usuario toEntity(UsuarioDiretorRequestDTO dto) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(dto.getNome());
+        usuario.setEmail(dto.getEmail());
+        usuario.setSenha(dto.getSenha());
+        usuario.setTipo(TipoUsuario.DIRETOR);
+        usuario.setTitulacao(dto.getTitulacao());
+        return usuario;
     }
 
-    // ========================
-    // ENTITY → RESPONSE DTO
-    // ========================
-
     /**
-     * Converte a entidade UsuarioAdministrador para UsuarioAdministradorResponseDTO.
+     * Converte a entidade Usuario para UsuarioAdministradorResponseDTO.
      */
-    public UsuarioAdministradorResponseDTO toResponseDTO(UsuarioAdministrador admin) {
+    public UsuarioAdministradorResponseDTO toResponseDTO(Usuario usuario) {
         UsuarioAdministradorResponseDTO dto = new UsuarioAdministradorResponseDTO();
-        dto.setId(admin.getId());
-        dto.setEmail(admin.getEmail());
-        dto.setCargo(admin.getCargo());
-        dto.setDataCriacao(admin.getDataCriacao());
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        dto.setCargo(usuario.getCargo());
+        dto.setDataCriacao(usuario.getDataCriacao());
         return dto;
     }
 
     /**
-     * Converte a entidade UsuarioDiretor para UsuarioDiretorResponseDTO.
+     * Converte a entidade Usuario para UsuarioDiretorResponseDTO.
      */
-    public UsuarioDiretorResponseDTO toResponseDTO(UsuarioDiretor diretor) {
+    public UsuarioDiretorResponseDTO toResponseDTODiretor(Usuario usuario) {
         UsuarioDiretorResponseDTO dto = new UsuarioDiretorResponseDTO();
-        dto.setId(diretor.getId());
-        dto.setEmail(diretor.getEmail());
-        dto.setTitulacao(diretor.getTitulacao());
-        dto.setDataCriacao(diretor.getDataCriacao());
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        dto.setTitulacao(usuario.getTitulacao());
+        dto.setDataCriacao(usuario.getDataCriacao());
+        return dto;
+    }
+
+    /**
+     * Converte qualquer Usuario para UsuarioResponseDTO genérico.
+     */
+    public UsuarioResponseDTO toGenericResponseDTO(Usuario usuario) {
+        UsuarioResponseDTO dto = new UsuarioResponseDTO();
+        dto.setId(usuario.getId());
+        dto.setNome(usuario.getNome());
+        dto.setEmail(usuario.getEmail());
+        dto.setDataCriacao(usuario.getDataCriacao());
+        dto.setTipo(usuario.getTipo().name());
+        
+        if (usuario.getTipo() == TipoUsuario.ADMINISTRADOR) {
+            dto.setAtributoEspecifico(usuario.getCargo());
+        } else if (usuario.getTipo() == TipoUsuario.DIRETOR) {
+            dto.setAtributoEspecifico(usuario.getTitulacao());
+        }
+
         return dto;
     }
 }

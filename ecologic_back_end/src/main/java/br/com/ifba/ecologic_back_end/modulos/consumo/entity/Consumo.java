@@ -2,6 +2,7 @@ package br.com.ifba.ecologic_back_end.modulos.consumo.entity;
 
 import br.com.ifba.ecologic_back_end.modulos.produto.entity.Produto;
 import br.com.ifba.ecologic_back_end.infraestrutura.persistence.PersistenceEntity;
+import br.com.ifba.ecologic_back_end.modulos.setor.entity.Setor;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +27,8 @@ public class Consumo extends PersistenceEntity {
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
+
+    @ManyToOne
+    @JoinColumn(name = "setor_id")
+    private Setor setor;
 }

@@ -10,6 +10,7 @@ import java.util.UUID;
 public class UsuarioAdministradorResponseDTO {
 
     private UUID id;
+    private String nome;
     private String email;
     private String cargo;
     private LocalDateTime dataCriacao;

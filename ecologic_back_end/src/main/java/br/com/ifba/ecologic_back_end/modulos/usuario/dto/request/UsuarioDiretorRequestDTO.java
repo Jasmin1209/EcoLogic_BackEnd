@@ -10,6 +10,9 @@ import lombok.Data;
 @Data
 public class UsuarioDiretorRequestDTO {
 
+    @NotBlank(message = "O nome é obrigatório.")
+    private String nome;
+
     @NotBlank(message = "O email é obrigatório.")
     @Email(message = "O email deve ser válido.")
     private String email;

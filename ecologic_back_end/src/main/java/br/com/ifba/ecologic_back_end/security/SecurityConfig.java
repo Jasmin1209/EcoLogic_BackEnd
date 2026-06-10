@@ -1,4 +1,4 @@
-package br.com.ifba.ecologic_back_end.security.config;
+package br.com.ifba.ecologic_back_end.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+                .authorizeHttpRequests(auth -> auth
+                        // Garante a liberação de TODOS os métodos (POST, GET, PUT, DELETE) e sub-rotas
+                        .requestMatchers("/api/v1/usuarios", "/api/v1/usuarios/**").permitAll()
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 

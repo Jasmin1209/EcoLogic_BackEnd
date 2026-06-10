@@ -3,17 +3,19 @@ package br.com.ifba.ecologic_back_end.modulos.usuario.service;
 import br.com.ifba.ecologic_back_end.exception.BusinessException;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioAdministradorRequestDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioDiretorRequestDTO;
+import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioUpdateRequestDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioAdministradorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioDiretorResponseDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioAdministrador;
-import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioDiretor;
+import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioResponseDTO;
+import br.com.ifba.ecologic_back_end.modulos.usuario.enums.TipoUsuario;
+import br.com.ifba.ecologic_back_end.modulos.usuario.entity.Usuario;
 import br.com.ifba.ecologic_back_end.modulos.usuario.mapper.UsuarioMapper;
-import br.com.ifba.ecologic_back_end.modulos.usuario.repository.UsuarioAdministradorRepository;
-import br.com.ifba.ecologic_back_end.modulos.usuario.repository.UsuarioDiretorRepository;
 import br.com.ifba.ecologic_back_end.modulos.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementação do serviço de Usuário.
@@ -23,46 +25,82 @@ import org.springframework.stereotype.Service;
 public class UsuarioService implements UsuarioIService {
 
     private final UsuarioRepository usuarioRepository;
-    private final UsuarioAdministradorRepository administradorRepository;
-    private final UsuarioDiretorRepository diretorRepository;
     private final UsuarioMapper usuarioMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UsuarioAdministradorResponseDTO criarAdministrador(UsuarioAdministradorRequestDTO dto) {
-        // Verifica se o email já está cadastrado
         validarEmailDuplicado(dto.getEmail());
-
-        // Converte DTO para entidade
-        UsuarioAdministrador admin = usuarioMapper.toEntity(dto);
-        
-        // Criptografa a senha antes de salvar
-        admin.setSenha(passwordEncoder.encode(admin.getSenha()));
-        
-        UsuarioAdministrador adminSalvo = administradorRepository.save(admin);
-
-        return usuarioMapper.toResponseDTO(adminSalvo);
+        Usuario usuario = usuarioMapper.toEntity(dto);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        return usuarioMapper.toResponseDTO(usuarioSalvo);
     }
 
     @Override
     public UsuarioDiretorResponseDTO criarDiretor(UsuarioDiretorRequestDTO dto) {
-        // Verifica se o email já está cadastrado
         validarEmailDuplicado(dto.getEmail());
+        Usuario usuario = usuarioMapper.toEntity(dto);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        return usuarioMapper.toResponseDTODiretor(usuarioSalvo);
+    }
 
-        // Converte DTO para entidade
-        UsuarioDiretor diretor = usuarioMapper.toEntity(dto);
-        
-        // Criptografa a senha antes de salvar
-        diretor.setSenha(passwordEncoder.encode(diretor.getSenha()));
-        
-        UsuarioDiretor diretorSalvo = diretorRepository.save(diretor);
+    @Override
+    public UsuarioResponseDTO getUsuario(String nome) {
+        Usuario usuario = usuarioRepository.findByNome(nome)
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado com nome: " + nome));
+        return usuarioMapper.toGenericResponseDTO(usuario);
+    }
 
-        return usuarioMapper.toResponseDTO(diretorSalvo);
+    @Override
+    public List<UsuarioResponseDTO> listarTodos() {
+        return usuarioRepository.findAll()
+                .stream()
+                .map(usuarioMapper::toGenericResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UsuarioAdministradorResponseDTO> listarAdministradores() {
+        return usuarioRepository.findByTipo(TipoUsuario.ADMINISTRADOR)
+                .stream()
+                .map(usuarioMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UsuarioDiretorResponseDTO> listarDiretores() {
+        return usuarioRepository.findByTipo(TipoUsuario.DIRETOR)
+                .stream()
+                .map(usuarioMapper::toResponseDTODiretor)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UsuarioResponseDTO atualizarUsuario(String nome, UsuarioUpdateRequestDTO dto) {
+        Usuario usuario = usuarioRepository.findByNome(nome)
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado com nome: " + nome));
+
+        if (usuario.getTipo() == TipoUsuario.ADMINISTRADOR) {
+            usuario.setCargo(dto.getAtributoEspecifico());
+        } else if (usuario.getTipo() == TipoUsuario.DIRETOR) {
+            usuario.setTitulacao(dto.getAtributoEspecifico());
+        }
+
+        Usuario usuarioAtualizado = usuarioRepository.save(usuario);
+        return usuarioMapper.toGenericResponseDTO(usuarioAtualizado);
+    }
+
+    @Override
+    public void deletarUsuario(String nome) {
+        Usuario usuario = usuarioRepository.findByNome(nome)
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado com nome: " + nome));
+        usuarioRepository.delete(usuario);
     }
 
     /**
      * Valida se já existe um usuário com o email informado.
-     * Lança BusinessException caso o email já esteja em uso.
      */
     private void validarEmailDuplicado(String email) {
         if (usuarioRepository.existsByEmail(email)) {

@@ -3,7 +3,7 @@ package br.com.ifba.ecologic_back_end.modulos.setor.mapper;
 import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorRequestDto;
 import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorResponseDto;
 import br.com.ifba.ecologic_back_end.modulos.setor.entity.Setor;
-import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioAdministrador;
+import br.com.ifba.ecologic_back_end.modulos.usuario.entity.Usuario;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +20,7 @@ public class SetorMapper {
 
         // Instanciamos apenas o objeto com o ID para o Hibernate criar o relacionamento
         if (dto.getAdministradorId() != null) {
-            UsuarioAdministrador admin = new UsuarioAdministrador();
+            Usuario admin = new Usuario();
             admin.setId(dto.getAdministradorId());
             setor.setAdministrador(admin);
         }

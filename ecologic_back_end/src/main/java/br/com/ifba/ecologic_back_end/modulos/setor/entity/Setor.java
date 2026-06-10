@@ -1,6 +1,6 @@
 package br.com.ifba.ecologic_back_end.modulos.setor.entity;
 
-import br.com.ifba.ecologic_back_end.modulos.usuario.entity.UsuarioAdministrador;
+import br.com.ifba.ecologic_back_end.modulos.usuario.entity.Usuario;
 import br.com.ifba.ecologic_back_end.modulos.consumo.entity.Consumo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,7 +39,7 @@ public class Setor {
     // Relacionamento: Vários setores podem ter o mesmo administrador responsável.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_administrador_id", nullable = false)
-    private UsuarioAdministrador administrador;
+    private Usuario administrador;
 
     // Relacionamento: Um setor possui vários registros de consumos.
     // O 'mappedBy = "setor"' indica que o mapeamento principal e a chave estrangeira estão lá na classe Consumo.
