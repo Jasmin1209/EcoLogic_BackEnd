@@ -1,9 +1,10 @@
 package br.com.ifba.ecologic_back_end.modulos.usuario.repository;
 
-import br.com.ifba.ecologic_back_end.modulos.usuario.enums.TipoUsuario;
 import br.com.ifba.ecologic_back_end.modulos.usuario.entity.Usuario;
+import br.com.ifba.ecologic_back_end.modulos.usuario.enums.TipoUsuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,17 +16,22 @@ import java.util.UUID;
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     /**
-     * Verifica se já existe um usuário com o email informado.
+     * Verifica se ja existe um usuario com o email informado.
      */
     boolean existsByEmail(String email);
 
     /**
-     * Busca um usuário pelo nome.
+     * Busca um usuario pelo email.
+     */
+    Optional<Usuario> findByEmail(String email);
+
+    /**
+     * Busca um usuario pelo nome.
      */
     Optional<Usuario> findByNome(String nome);
 
     /**
-     * Lista todos os usuários de um tipo específico.
+     * Lista todos os usuarios de um tipo especifico.
      */
     List<Usuario> findByTipo(TipoUsuario tipo);
 }
