@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Controller REST para o módulo Usuário.
@@ -63,6 +64,16 @@ public class UsuarioController {
     @GetMapping("/{nome}")
     public ResponseEntity<UsuarioResponseDTO> getUsuario(@PathVariable String nome) {
         UsuarioResponseDTO response = usuarioIService.getUsuario(nome);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Obtém um usuário pelo id.
+     * GET /api/v1/usuarios/id/{id}
+     */
+    @GetMapping("/id/{id}")
+    public ResponseEntity<UsuarioResponseDTO> getUsuarioPorId(@PathVariable UUID id) {
+        UsuarioResponseDTO response = usuarioIService.getUsuarioPorId(id);
         return ResponseEntity.ok(response);
     }
 

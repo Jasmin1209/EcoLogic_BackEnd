@@ -24,6 +24,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("EcoLogic_API")
                     .withSubject(usuario.getEmail())
+                    .withClaim("id", usuario.getId().toString())
                     .withClaim("tipo", usuario.getTipo().name())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);

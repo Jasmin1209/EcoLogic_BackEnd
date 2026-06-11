@@ -7,6 +7,7 @@ import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioAdminis
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioDiretorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioResponseDTO;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Interface de serviço para o módulo Usuário.
@@ -37,6 +38,14 @@ public interface UsuarioIService {
      * @return dados do usuário
      */
     UsuarioResponseDTO getUsuario(String nome);
+
+    /**
+     * Obtém um usuário pelo identificador.
+     *
+     * @param id identificador do usuário
+     * @return dados do usuário
+     */
+    UsuarioResponseDTO getUsuarioPorId(UUID id);
 
     /**
      * Lista todos os usuários.

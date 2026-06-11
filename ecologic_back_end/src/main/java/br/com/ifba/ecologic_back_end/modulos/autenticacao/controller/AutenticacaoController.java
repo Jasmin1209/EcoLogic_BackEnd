@@ -28,10 +28,11 @@ public class AutenticacaoController {
 
         // Verifica a senha no banco
         var authentication = manager.authenticate(authenticationToken);
+        Usuario usuario = (Usuario) authentication.getPrincipal();
 
         // Gera o token
-        var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+        var tokenJWT = tokenService.gerarToken(usuario);
 
-        return ResponseEntity.ok(new TokenResponseDTO(tokenJWT));
+        return ResponseEntity.ok(new TokenResponseDTO(tokenJWT, usuario.getId()));
     }
 }

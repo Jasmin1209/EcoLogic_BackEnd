@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +51,13 @@ public class UsuarioService implements UsuarioIService {
     public UsuarioResponseDTO getUsuario(String nome) {
         Usuario usuario = usuarioRepository.findByNome(nome)
                 .orElseThrow(() -> new BusinessException("Usuário não encontrado com nome: " + nome));
+        return usuarioMapper.toGenericResponseDTO(usuario);
+    }
+
+    @Override
+    public UsuarioResponseDTO getUsuarioPorId(UUID id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Usuário não encontrado com id: " + id));
         return usuarioMapper.toGenericResponseDTO(usuario);
     }
 
