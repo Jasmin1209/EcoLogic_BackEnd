@@ -1,5 +1,5 @@
 package br.com.ifba.ecologic_back_end.modulos.produto.entity;
-
+import br.com.ifba.ecologic_back_end.infraestrutura.persistence.PersistenceEntity;
 import br.com.ifba.ecologic_back_end.modulos.consumo.entity.Consumo;
 import br.com.ifba.ecologic_back_end.modulos.estoque.entity.Estoque;
 import br.com.ifba.ecologic_back_end.modulos.produto.entity.enums.Categoria;
@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "produto")
 @Getter
 @Setter
-public class Produto extends br.com.ifba.ecologic_back_end.infraestrutura.persistence.PersistenceEntity {
+public class Produto extends PersistenceEntity {
 
     @Column(nullable = false)
     private String nome;
