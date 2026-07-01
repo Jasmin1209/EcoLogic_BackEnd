@@ -1,7 +1,7 @@
 package br.com.ifba.ecologic_back_end.modulos.setor.controller;
 
-import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorRequestDto;
-import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorResponseDto;
+import br.com.ifba.ecologic_back_end.modulos.setor.dto.request.SetorRequestDto;
+import br.com.ifba.ecologic_back_end.modulos.setor.dto.response.SetorResponseDto;
 import br.com.ifba.ecologic_back_end.modulos.setor.service.SetorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

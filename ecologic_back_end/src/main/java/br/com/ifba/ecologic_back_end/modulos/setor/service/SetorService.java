@@ -1,8 +1,8 @@
 package br.com.ifba.ecologic_back_end.modulos.setor.service;
 
 import br.com.ifba.ecologic_back_end.exception.BusinessException;
-import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorRequestDto;
-import br.com.ifba.ecologic_back_end.modulos.setor.dto.SetorResponseDto;
+import br.com.ifba.ecologic_back_end.modulos.setor.dto.request.SetorRequestDto;
+import br.com.ifba.ecologic_back_end.modulos.setor.dto.response.SetorResponseDto;
 import br.com.ifba.ecologic_back_end.modulos.setor.entity.Setor;
 import br.com.ifba.ecologic_back_end.modulos.setor.mapper.SetorMapper;
 import br.com.ifba.ecologic_back_end.modulos.setor.repository.SetorRepository;

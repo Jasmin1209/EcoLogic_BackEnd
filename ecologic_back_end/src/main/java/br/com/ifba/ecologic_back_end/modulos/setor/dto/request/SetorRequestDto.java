@@ -1,4 +1,4 @@
-package br.com.ifba.ecologic_back_end.modulos.setor.dto;
+package br.com.ifba.ecologic_back_end.modulos.setor.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
