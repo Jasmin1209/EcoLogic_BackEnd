@@ -14,4 +14,7 @@ public class ConsumoRequestDTO {
     private String justificativa;
 
     private UUID produtoId;
+
+    // Identificador do setor que está solicitando o consumo
+    private Long setorId;
 }

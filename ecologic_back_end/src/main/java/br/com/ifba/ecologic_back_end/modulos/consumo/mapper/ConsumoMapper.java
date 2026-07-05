@@ -21,6 +21,10 @@ public class ConsumoMapper {
 
         dto.setProdutoId(entity.getProduto().getId());
         dto.setNomeProduto(entity.getProduto().getNome());
+        if (entity.getSetor() != null) {
+            dto.setSetorId(entity.getSetor().getId());
+            dto.setNomeSetor(entity.getSetor().getNome());
+        }
 
         return dto;
     }

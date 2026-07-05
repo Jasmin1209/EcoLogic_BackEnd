@@ -16,7 +16,7 @@ public class ProdutoResponseDTO {
 
     private Categoria categoria;
 
-    private String unidadeDeMedida;
+    private Integer quantidade;
 
     private double custoUnitario;
 }

@@ -3,6 +3,7 @@ package br.com.ifba.ecologic_back_end.modulos.estoque.controller;
 import br.com.ifba.ecologic_back_end.modulos.estoque.dto.request.EstoqueRequestDTO;
 import br.com.ifba.ecologic_back_end.modulos.estoque.dto.response.EstoqueResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.estoque.service.EstoqueIService;
+import br.com.ifba.ecologic_back_end.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,11 @@ public class EstoqueController {
     public EstoqueResponseDTO salvar(
             @RequestBody EstoqueRequestDTO dto
     ) {
-
-        return service.salvar(dto);
+        throw new BusinessException("Módulo 'estoque' descontinuado. Use produto.quantidade para controle de estoque.");
     }
 
     @GetMapping
     public List<EstoqueResponseDTO> listar() {
-
-        return service.listar();
+        throw new BusinessException("Módulo 'estoque' descontinuado.");
     }
 }

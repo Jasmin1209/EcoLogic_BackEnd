@@ -21,4 +21,9 @@ public class ConsumoResponseDTO {
     private UUID produtoId;
 
     private String nomeProduto;
+
+    // Dados do setor que realizou o consumo
+    private Long setorId;
+
+    private String nomeSetor;
 }

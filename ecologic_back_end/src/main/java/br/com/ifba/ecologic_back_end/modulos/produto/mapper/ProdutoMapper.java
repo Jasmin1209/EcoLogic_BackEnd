@@ -13,7 +13,7 @@ public class ProdutoMapper {
 
         produto.setNome(dto.getNome());
         produto.setCategoria(dto.getCategoria());
-        produto.setUnidadeDeMedida(dto.getUnidadeDeMedida());
+        produto.setQuantidade(dto.getQuantidade());
         produto.setCustoUnitario(dto.getCustoUnitario());
 
         return produto;
@@ -26,7 +26,7 @@ public class ProdutoMapper {
         dto.setId(entity.getId());
         dto.setNome(entity.getNome());
         dto.setCategoria(entity.getCategoria());
-        dto.setUnidadeDeMedida(entity.getUnidadeDeMedida());
+        dto.setQuantidade(entity.getQuantidade());
         dto.setCustoUnitario(entity.getCustoUnitario());
 
         return dto;
@@ -39,7 +39,7 @@ public class ProdutoMapper {
 
         produto.setNome(dto.getNome());
         produto.setCategoria(dto.getCategoria());
-        produto.setUnidadeDeMedida(dto.getUnidadeDeMedida());
+        produto.setQuantidade(dto.getQuantidade());
         produto.setCustoUnitario(dto.getCustoUnitario());
     }
 }
