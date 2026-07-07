@@ -1,9 +1,10 @@
 package br.com.ifba.ecologic_back_end.modulos.relatorio.service;
 
-import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.RelatorioRequestDto;
-import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.RelatorioResponseDto;
+import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.request.RelatorioRequestDto;
+import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.response.RelatorioResponseDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface RelatorioIService {
 
@@ -11,9 +12,9 @@ public interface RelatorioIService {
 
     List<RelatorioResponseDto> listarTodos();
 
-    RelatorioResponseDto buscarPorId(Long id);
+    RelatorioResponseDto buscarPorId(UUID id);
 
-    void deletar(Long id);
+    void deletar(UUID id);
 
-    RelatorioResponseDto atualizar(Long id, RelatorioRequestDto dto);
+    RelatorioResponseDto atualizar(UUID id, RelatorioRequestDto dto);
 }

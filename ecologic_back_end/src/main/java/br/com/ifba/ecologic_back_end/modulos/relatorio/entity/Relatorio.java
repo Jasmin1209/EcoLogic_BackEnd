@@ -1,10 +1,12 @@
 package br.com.ifba.ecologic_back_end.modulos.relatorio.entity;
 
+import br.com.ifba.ecologic_back_end.infraestrutura.persistence.PersistenceEntity;
 import br.com.ifba.ecologic_back_end.modulos.setor.entity.Setor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 import java.time.LocalDateTime;
 
@@ -13,11 +15,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Relatorio {
+public class Relatorio extends PersistenceEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Column(nullable = false)
     private String titulo;

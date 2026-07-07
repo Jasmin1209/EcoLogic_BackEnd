@@ -1,7 +1,7 @@
 package br.com.ifba.ecologic_back_end.modulos.relatorio.controller;
 
-import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.RelatorioRequestDto;
-import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.RelatorioResponseDto;
+import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.request.RelatorioRequestDto;
+import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.response.RelatorioResponseDto;
 import br.com.ifba.ecologic_back_end.modulos.relatorio.service.RelatorioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/relatorios")
@@ -42,7 +43,7 @@ public class RelatorioController {
     // Busca um relatório pelo id
     @GetMapping("/{id}")
     public ResponseEntity<RelatorioResponseDto> buscarPorId(
-            @PathVariable Long id) {
+            @PathVariable UUID id) {
 
         return ResponseEntity.ok(
                 relatorioService.buscarPorId(id)
@@ -52,7 +53,7 @@ public class RelatorioController {
     // Remove um relatório
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(
-            @PathVariable Long id) {
+            @PathVariable UUID id) {
 
         relatorioService.deletar(id);
 
@@ -62,7 +63,7 @@ public class RelatorioController {
     // Atualiza um relatório
     @PutMapping("/{id}")
     public ResponseEntity<RelatorioResponseDto> atualizar(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @RequestBody @Valid RelatorioRequestDto dto) {
 
         return ResponseEntity.ok(

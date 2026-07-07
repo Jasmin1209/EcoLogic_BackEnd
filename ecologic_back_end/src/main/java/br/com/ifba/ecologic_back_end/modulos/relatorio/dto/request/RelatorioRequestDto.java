@@ -1,4 +1,4 @@
-package br.com.ifba.ecologic_back_end.modulos.relatorio.dto;
+package br.com.ifba.ecologic_back_end.modulos.relatorio.dto.request;
 
 import br.com.ifba.ecologic_back_end.modulos.relatorio.entity.TipoRelatorio;
 import jakarta.validation.constraints.NotNull;

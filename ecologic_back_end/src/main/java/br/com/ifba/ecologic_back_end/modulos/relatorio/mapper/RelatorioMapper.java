@@ -1,7 +1,7 @@
 package br.com.ifba.ecologic_back_end.modulos.relatorio.mapper;
 
-import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.RelatorioRequestDto;
-import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.RelatorioResponseDto;
+import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.request.RelatorioRequestDto;
+import br.com.ifba.ecologic_back_end.modulos.relatorio.dto.response.RelatorioResponseDto;
 import br.com.ifba.ecologic_back_end.modulos.relatorio.entity.Relatorio;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,9 @@ public class RelatorioMapper {
 
         RelatorioResponseDto dto = new RelatorioResponseDto();
 
+        // Identificador (UUID) herdado de PersistenceEntity
         dto.setId(relatorio.getId());
+
         dto.setTitulo(relatorio.getTitulo());
         dto.setTipoRelatorio(relatorio.getTipoRelatorio());
         dto.setDataGeracao(relatorio.getDataGeracao());
@@ -39,6 +41,10 @@ public class RelatorioMapper {
         if (relatorio.getSetor() != null) {
             dto.setSetorId(relatorio.getSetor().getId());
             dto.setNomeSetor(relatorio.getSetor().getNome());
+            if (relatorio.getSetor().getAdministrador() != null) {
+                dto.setAdministradorId(relatorio.getSetor().getAdministrador().getId());
+                dto.setAdministradorNome(relatorio.getSetor().getAdministrador().getNome());
+            }
         }
 
         return dto;
