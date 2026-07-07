@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,5 +71,19 @@ public class RelatorioController {
         return ResponseEntity.ok(
                 relatorioService.atualizar(id, dto)
         );
+    }
+
+    // Exporta os dados do relatório em formato PDF
+    @GetMapping("/{id}/exportar-pdf")
+    public ResponseEntity<byte[]> exportarPdf(@PathVariable UUID id) {
+        byte[] pdfBytes = relatorioService.exportarPdf(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"relatorio-" + id + ".pdf\"");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(pdfBytes);
     }
 }

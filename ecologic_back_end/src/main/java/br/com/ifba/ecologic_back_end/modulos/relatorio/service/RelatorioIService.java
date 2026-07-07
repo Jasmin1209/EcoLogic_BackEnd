@@ -17,4 +17,6 @@ public interface RelatorioIService {
     void deletar(UUID id);
 
     RelatorioResponseDto atualizar(UUID id, RelatorioRequestDto dto);
+
+    byte[] exportarPdf(UUID id);
 }
