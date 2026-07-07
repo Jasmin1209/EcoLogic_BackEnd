@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,15 @@ public class ProdutoService implements ProdutoIService{
 
     @Override
     public ProdutoResponseDTO salvar(ProdutoRequestDTO dto) {
+
+        Optional<Produto> produtoExistente = repository.findByNome(dto.getNome());
+
+        if (produtoExistente.isPresent()) {
+            Produto produto = produtoExistente.get();
+            produto.setQuantidade(produto.getQuantidade() + dto.getQuantidade());
+            produto = repository.save(produto);
+            return mapper.toResponseDTO(produto);
+        }
 
         Produto produto = mapper.toEntity(dto);
 
