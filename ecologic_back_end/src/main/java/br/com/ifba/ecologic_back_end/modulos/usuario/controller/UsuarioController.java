@@ -1,8 +1,6 @@
 package br.com.ifba.ecologic_back_end.modulos.usuario.controller;
 
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioAdministradorRequestDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioDiretorRequestDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioUpdateRequestDTO;
+import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.*;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioAdministradorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioDiretorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioResponseDTO;
@@ -136,5 +134,26 @@ public class UsuarioController {
     public ResponseEntity<Void> deletarUsuario(@PathVariable UUID id) {
         usuarioIService.deletarUsuario(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+    /**
+     * Solicita a redefinição de senha, enviando um e-mail com o link/token.
+     * POST /api/v1/usuarios/esqueci-senha
+     */
+    @PostMapping("/esqueci-senha")
+    public ResponseEntity<Void> esqueciSenha(@RequestBody @Valid EsqueciSenhaRequestDTO dto) {
+        usuarioIService.solicitarRedefinicaoSenha(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Redefine a senha usando o token recebido por e-mail.
+     * POST /api/v1/usuarios/redefinir-senha
+     */
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<Void> redefinirSenha(@RequestBody @Valid RedefinirSenhaRequestDTO dto) {
+        usuarioIService.redefinirSenha(dto);
+        return ResponseEntity.ok().build();
     }
 }

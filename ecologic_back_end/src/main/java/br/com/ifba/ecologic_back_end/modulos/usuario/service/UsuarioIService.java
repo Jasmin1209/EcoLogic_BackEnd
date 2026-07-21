@@ -1,8 +1,6 @@
 package br.com.ifba.ecologic_back_end.modulos.usuario.service;
 
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioAdministradorRequestDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioDiretorRequestDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioUpdateRequestDTO;
+import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.*;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioAdministradorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioDiretorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioResponseDTO;
@@ -84,4 +82,9 @@ public interface UsuarioIService {
      * @param id identificador UUID do usuário
      */
     void deletarUsuario(UUID id);
+
+    void solicitarRedefinicaoSenha(EsqueciSenhaRequestDTO dto);
+
+    void redefinirSenha(RedefinirSenhaRequestDTO dto);
+
 }

@@ -34,4 +34,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
      * Lista todos os usuarios de um tipo especifico.
      */
     List<Usuario> findByTipo(TipoUsuario tipo);
+
+    /**
+     * Busca um usuario pelo token de redefinição de senha.
+     */
+    Optional<Usuario> findByTokenRedefinicaoSenha(String token);
 }

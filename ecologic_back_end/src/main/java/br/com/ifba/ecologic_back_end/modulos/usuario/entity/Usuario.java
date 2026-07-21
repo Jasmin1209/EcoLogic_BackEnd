@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,6 +38,14 @@ public class Usuario extends PersistenceEntity implements UserDetails {
 
     @Column(name = "titulacao")
     private String titulacao;
+
+    // --- CAMPOS PARA REDEFINIÇÃO DE SENHA --- //
+
+    @Column(name = "token_redefinicao_senha")
+    private String tokenRedefinicaoSenha;
+
+    @Column(name = "token_expiracao")
+    private LocalDateTime tokenExpiracao;
 
     // --- MÉTODOS DO USERDETAILS --- //
 

@@ -1,9 +1,7 @@
 package br.com.ifba.ecologic_back_end.modulos.usuario.service;
 
 import br.com.ifba.ecologic_back_end.exception.BusinessException;
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioAdministradorRequestDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioDiretorRequestDTO;
-import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.UsuarioUpdateRequestDTO;
+import br.com.ifba.ecologic_back_end.modulos.usuario.dto.request.*;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioAdministradorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioDiretorResponseDTO;
 import br.com.ifba.ecologic_back_end.modulos.usuario.dto.response.UsuarioResponseDTO;
@@ -16,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,6 +29,7 @@ public class UsuarioService implements UsuarioIService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -158,4 +158,37 @@ public class UsuarioService implements UsuarioIService {
             }
         });
     }
-}
+
+    @Override
+    @Transactional
+    public void solicitarRedefinicaoSenha(EsqueciSenhaRequestDTO dto) {
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new BusinessException("Nenhum usuário encontrado com esse email."));
+
+        // Gera um token único e aleatório
+        String token = UUID.randomUUID().toString();
+
+        usuario.setTokenRedefinicaoSenha(token);
+        usuario.setTokenExpiracao(LocalDateTime.now().plusMinutes(30));
+        usuarioRepository.save(usuario);
+
+        emailService.enviarEmailRedefinicaoSenha(usuario.getEmail(), usuario.getNome(), token);
+    }
+
+    @Override
+    @Transactional
+    public void redefinirSenha(RedefinirSenhaRequestDTO dto) {
+        Usuario usuario = usuarioRepository.findByTokenRedefinicaoSenha(dto.getToken())
+                .orElseThrow(() -> new BusinessException("Token inválido ou inexistente."));
+
+        if (usuario.getTokenExpiracao() == null || usuario.getTokenExpiracao().isBefore(LocalDateTime.now())) {
+            throw new BusinessException("Token expirado. Solicite uma nova redefinição de senha.");
+        }
+
+        usuario.setSenha(passwordEncoder.encode(dto.getNovaSenha()));
+        usuario.setTokenRedefinicaoSenha(null); // invalida o token para não ser reutilizado
+        usuario.setTokenExpiracao(null);
+
+        usuarioRepository.save(usuario);
+    }
+}
