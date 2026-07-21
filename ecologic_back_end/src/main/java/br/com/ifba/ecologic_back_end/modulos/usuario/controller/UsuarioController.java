@@ -112,14 +112,15 @@ public class UsuarioController {
     // ========================
 
     /**
-     * Atualiza um usuário pelo nome (independente do tipo).
-     * PUT /api/v1/usuarios/{nome}
+     * Atualiza parcialmente um usuário pelo seu ID.
+     * Apenas os campos informados no body serão atualizados.
+     * PUT /api/v1/usuarios/id/{id}
      */
-    @PutMapping("/{nome}")
+    @PutMapping("/id/{id}")
     public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(
-            @PathVariable String nome,
+            @PathVariable UUID id,
             @RequestBody @Valid UsuarioUpdateRequestDTO dto) {
-        UsuarioResponseDTO response = usuarioIService.atualizarUsuario(nome, dto);
+        UsuarioResponseDTO response = usuarioIService.atualizarUsuario(id, dto);
         return ResponseEntity.ok(response);
     }
 
@@ -128,12 +129,12 @@ public class UsuarioController {
     // ========================
 
     /**
-     * Deleta um usuário pelo nome (independente do tipo).
-     * DELETE /api/v1/usuarios/{nome}
+     * Deleta um usuário pelo seu ID.
+     * DELETE /api/v1/usuarios/id/{id}
      */
-    @DeleteMapping("/{nome}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable String nome) {
-        usuarioIService.deletarUsuario(nome);
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Void> deletarUsuario(@PathVariable UUID id) {
+        usuarioIService.deletarUsuario(id);
         return ResponseEntity.noContent().build();
     }
 }

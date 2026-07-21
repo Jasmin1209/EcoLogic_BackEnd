@@ -69,18 +69,19 @@ public interface UsuarioIService {
     List<UsuarioDiretorResponseDTO> listarDiretores();
 
     /**
-     * Atualiza um usuário pelo nome (independente do tipo).
+     * Atualiza parcialmente um usuário pelo seu ID.
+     * Apenas os campos não-nulos e não-vazios do DTO serão atualizados.
      *
-     * @param nome nome do usuário
-     * @param dto dados para atualização
+     * @param id  identificador UUID do usuário
+     * @param dto dados para atualização (todos opcionais)
      * @return dados do usuário atualizado
      */
-    UsuarioResponseDTO atualizarUsuario(String nome, UsuarioUpdateRequestDTO dto);
+    UsuarioResponseDTO atualizarUsuario(UUID id, UsuarioUpdateRequestDTO dto);
 
     /**
-     * Deleta um usuário pelo nome (independente do tipo).
+     * Deleta um usuário pelo seu ID.
      *
-     * @param nome nome do usuário
+     * @param id identificador UUID do usuário
      */
-    void deletarUsuario(String nome);
+    void deletarUsuario(UUID id);
 }
