@@ -1,10 +1,11 @@
 package br.com.ifba.ecologic_back_end.modulos.produto.dto.request;
 
-import br.com.ifba.ecologic_back_end.modulos.produto.entity.enums.Categoria;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
+
+import java.util.UUID;
 
 @Data
 public class ProdutoRequestDTO {
@@ -12,7 +13,7 @@ public class ProdutoRequestDTO {
     private String nome;
 
     @NotBlank(message = "Selecione uma categoria")
-    private Categoria categoria;
+    private UUID categoriaId;
 
     @PositiveOrZero
     private Integer quantidade;
