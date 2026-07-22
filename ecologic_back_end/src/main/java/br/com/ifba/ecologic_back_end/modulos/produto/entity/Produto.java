@@ -2,7 +2,6 @@ package br.com.ifba.ecologic_back_end.modulos.produto.entity;
 
 import br.com.ifba.ecologic_back_end.infraestrutura.persistence.PersistenceEntity;
 import br.com.ifba.ecologic_back_end.modulos.consumo.entity.Consumo;
-// ATENÇÃO: Mude o import para a nova entidade Categoria que você acabou de criar!
 import br.com.ifba.ecologic_back_end.modulos.categoria.entity.Categoria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
