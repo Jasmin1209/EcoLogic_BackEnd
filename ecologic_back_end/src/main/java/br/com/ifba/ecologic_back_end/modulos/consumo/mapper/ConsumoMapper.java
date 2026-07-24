@@ -26,6 +26,10 @@ public class ConsumoMapper {
             dto.setNomeSetor(entity.getSetor().getNome());
         }
 
+        if (entity.getProduto() != null) {
+            dto.setCustoTotal(entity.getQuantidade() * entity.getProduto().getCustoUnitario());
+        }
+
         return dto;
     }
 }

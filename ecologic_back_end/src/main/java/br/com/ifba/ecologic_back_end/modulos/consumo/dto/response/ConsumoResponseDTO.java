@@ -26,4 +26,6 @@ public class ConsumoResponseDTO {
     private Long setorId;
 
     private String nomeSetor;
+
+    private Double custoTotal;
 }

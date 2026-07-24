@@ -283,16 +283,24 @@ public class RelatorioService implements RelatorioIService {
                 noConsumo.setSpacingAfter(15);
                 document.add(noConsumo);
             } else {
-                PdfPTable table = new PdfPTable(4);
+                PdfPTable table = new PdfPTable(6);
                 table.setWidthPercentage(100);
-                table.setWidths(new float[]{30f, 15f, 20f, 35f});
+                table.setWidths(new float[]{20f, 20f, 10f, 15f, 15f, 20f});
 
                 // Headers da tabela
                 PdfPCell c1 = new PdfPCell(new Phrase("Produto", boldFont));
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(c1);
 
+                c1 = new PdfPCell(new Phrase("Setor", boldFont));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(c1);
+
                 c1 = new PdfPCell(new Phrase("Qtd", boldFont));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(c1);
+
+                c1 = new PdfPCell(new Phrase("Custo (R$)", boldFont));
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(c1);
 
@@ -308,9 +316,16 @@ public class RelatorioService implements RelatorioIService {
                 for (br.com.ifba.ecologic_back_end.modulos.consumo.dto.response.ConsumoResponseDTO c : relatorio.getConsumos()) {
                     table.addCell(new Phrase(c.getNomeProduto(), regularFont));
 
+                    table.addCell(new Phrase(c.getNomeSetor() != null ? c.getNomeSetor() : "-", regularFont));
+
                     PdfPCell cellQtd = new PdfPCell(new Phrase(String.valueOf(c.getQuantidade()), regularFont));
                     cellQtd.setHorizontalAlignment(Element.ALIGN_CENTER);
                     table.addCell(cellQtd);
+
+                    String custoStr = c.getCustoTotal() != null ? String.format("R$ %.2f", c.getCustoTotal()) : "R$ 0,00";
+                    PdfPCell cellCusto = new PdfPCell(new Phrase(custoStr, regularFont));
+                    cellCusto.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(cellCusto);
 
                     String data = c.getDataRetirada() != null ? c.getDataRetirada().format(dateFormatter) : "-";
                     PdfPCell cellData = new PdfPCell(new Phrase(data, regularFont));
